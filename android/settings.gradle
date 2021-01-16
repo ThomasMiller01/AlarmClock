@@ -1,0 +1,11 @@
+rootProject.name = 'AlarmClock'
+include ':react-native-ringtone-manager'
+project(':react-native-ringtone-manager').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-ringtone-manager/android')
+
+apply from: '../node_modules/react-native-unimodules/gradle.groovy'
+includeUnimodulesProjects()
+
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle");
+applyNativeModulesSettingsGradle(settings)
+
+include ':app'

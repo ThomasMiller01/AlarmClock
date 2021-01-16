@@ -1,0 +1,12 @@
+{
+  "name": "AlarmClock",
+  "displayName": "AlarmClock",
+  "expo": {
+    "name": "AlarmClock",
+    "slug": "AlarmClock",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
