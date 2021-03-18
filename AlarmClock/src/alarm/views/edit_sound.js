@@ -30,13 +30,13 @@ class EditSound extends Component {
     ],
   };
 
-  // componentDidMount() {
-  //   console.log("starting to get ringtones");
-  //   console.log("name", RingtoneManager.getRingtones());
-  //   // let ringtones = RingtoneManager.getRingtones(RingtoneManager.TYPE_ALL);
-  //   // console.log("ringtones", ringtones);
-  //   console.log("got ringtones");
-  // }
+  componentDidMount() {
+    console.log("starting to get ringtones");
+    RingtoneManager.pickRingtone();
+    // let ringtones = RingtoneManager.getRingtones(RingtoneManager.TYPE_ALL);
+    // console.log("ringtonessss", ringtones);
+    console.log("got ringtones");
+  }
 
   getSound = () => {
     return "not implemented";

@@ -1,4 +1,4 @@
-package com.backupmobile.generated;
+package com.alarmclock.generated;
 
 import java.util.Arrays;
 import java.util.List;
