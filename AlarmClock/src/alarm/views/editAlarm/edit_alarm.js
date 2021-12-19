@@ -7,6 +7,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import Toast from "react-native-toast-message";
 
 import EditTime from "./edit_time";
 import EditSound from "./edit_sound";
@@ -18,7 +19,7 @@ class EditAlarm extends Component {
     super(props);
     this.props = props;
 
-    let params = props.navigation.state.params;
+    let params = props.route.params;
 
     this.alarm = params.alarm;
 
@@ -27,6 +28,7 @@ class EditAlarm extends Component {
       name: this.alarm.name,
     };
 
+    this.nameRef = createRef();
     this.timeRef = createRef();
     this.soundRef = createRef();
     this.vibrationRef = createRef();
@@ -53,7 +55,17 @@ class EditAlarm extends Component {
       vibration,
       reminder,
     };
-    console.log("save", save_obj);
+    this.alarm.update(save_obj);
+    this.showSaveToast();
+  };
+
+  showSaveToast = () => {
+    console.log("before toast");
+    Toast.show({
+      type: "info",
+      text1: "Alarm saved!",
+      position: "bottom",
+    });
   };
 
   onChangeName = (value) => {

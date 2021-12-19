@@ -32,7 +32,7 @@ class EditSound extends Component {
 
   componentDidMount() {
     console.log("starting to get ringtones");
-    RingtoneManager.pickRingtone();
+    //RingtoneManager.pickRingtone();
     // let ringtones = RingtoneManager.getRingtones(RingtoneManager.TYPE_ALL);
     // console.log("ringtonessss", ringtones);
     console.log("got ringtones");

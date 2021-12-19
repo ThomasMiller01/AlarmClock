@@ -1,24 +1,16 @@
-import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
+import React, { Component } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import Main from "./main";
-import EditAlarm from "./alarm/views/edit_alarm";
+import EditAlarm from "./alarm/views/editAlarm/edit_alarm";
 
-export const createRootNavigator = () => {
-  return createAppContainer(
-    createStackNavigator({
-      Main: {
-        screen: Main,
-        navigationOptions: {
-          title: "Home",
-        },
-      },
-      Alarm: {
-        screen: EditAlarm,
-        navigationOptions: {
-          title: "Alarm",
-        },
-      },
-    })
+export const Router = () => {
+  const Stack = createStackNavigator();
+
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Home" component={Main} />
+      <Stack.Screen name="Alarm" component={EditAlarm} />
+    </Stack.Navigator>
   );
 };

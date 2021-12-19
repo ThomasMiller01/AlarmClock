@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { formatDate } from "../../utils";
 
 class EditTime extends Component {
   constructor(props) {
@@ -8,10 +9,25 @@ class EditTime extends Component {
     this.props = props;
 
     this.alarm = this.props.alarm;
+    let value = this.alarm.time.selected.value;
+    let selected_value = null;
 
-    this.state.time.value = new Date();
+    if (this.alarm.time.selected.is_date) {
+      selected_value = new Date(value);
+    } else {
+      selected_value = [];
+      value.forEach((date) => {
+        let index = this.state.days.findIndex((elem) => elem.name == date);
+        this.state.days[index].selected = true;
+        selected_value.push(this.state.days[index]);
+      });
+    }
 
-    this.state.date = { is_date: true, value: new Date() };
+    this.state.time.value = new Date(this.alarm.time.time);
+    this.state.selected = {
+      is_date: this.alarm.time.selected.is_date,
+      value: selected_value,
+    };
   }
 
   state = {
@@ -76,7 +92,7 @@ class EditTime extends Component {
   getTime = () => {
     let time = this.state.time.value;
     let selected = {
-      is_date: this.state.date.is_date,
+      is_date: this.state.selected.is_date,
       value: null,
     };
     if (selected.is_date) {
@@ -144,7 +160,7 @@ class EditTime extends Component {
       selected.value.forEach((day) => {
         days.push(day.short);
       });
-      return <Text>{"Jeden " + days.join(", ")}</Text>;
+      return <Text>Jeden {days.join(", ")}</Text>;
     }
   };
 
@@ -259,40 +275,5 @@ const styles = StyleSheet.create({
     width: "12%",
   },
 });
-
-const formatDate = (date, format) => {
-  let week_days = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
-  let months = [
-    "Jan",
-    "Feb",
-    "Mär",
-    "Apr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Okt",
-    "Nov",
-    "Dez",
-  ];
-  let d = date.getDate();
-  let m = date.getMonth() + 1;
-  let y = date.getFullYear();
-  let h = date.getHours();
-  let M = date.getMinutes();
-  let s = date.getSeconds();
-  let mname = months[m - 1];
-  let dname = week_days[date.getDay()];
-  format = format.replace("EEE", dname);
-  format = format.replace("dd", d < 10 ? "0" + d : d);
-  format = format.replace("mmm", mname);
-  format = format.replace("mm", m < 10 ? "0" + m : m);
-  format = format.replace("yyyy", y);
-  format = format.replace("hh", h < 10 ? "0" + h : h);
-  format = format.replace("MM", M < 10 ? "0" + M : M);
-  format = format.replace("ss", s < 10 ? "0" + s : s);
-  return format;
-};
 
 export default EditTime;

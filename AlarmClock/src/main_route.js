@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { createRootNavigator } from "./router";
+import { Router } from "./router";
+import { NavigationContainer } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 class MainRoute extends Component {
   render() {
-    const Layout = createRootNavigator();
-    return <Layout />;
+    return (
+      <React.Fragment>
+        <NavigationContainer>
+          <Router />
+        </NavigationContainer>
+        <Toast />
+      </React.Fragment>
+    );
   }
 }
 

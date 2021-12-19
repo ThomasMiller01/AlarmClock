@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-class Main extends Component {
+class AlarmManager extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Main;
+export default AlarmManager;
