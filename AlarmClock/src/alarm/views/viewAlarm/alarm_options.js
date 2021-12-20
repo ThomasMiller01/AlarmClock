@@ -6,14 +6,12 @@ class AlarmOptions extends Component {
     super(props);
 
     this.index = props.index;
-    this.view = props.view;
     this.remove = props.remove;
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Button title="edit" onPress={() => this.view(this.index)} />
         <Button title="remove" onPress={() => this.remove(this.index)} />
       </View>
     );
@@ -21,9 +19,7 @@ class AlarmOptions extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
+  container: {},
 });
 
 export default AlarmOptions;
