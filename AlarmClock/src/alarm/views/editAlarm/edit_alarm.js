@@ -60,7 +60,6 @@ class EditAlarm extends Component {
   };
 
   showSaveToast = () => {
-    console.log("before toast");
     Toast.show({
       type: "info",
       text1: "Alarm saved!",
