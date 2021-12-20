@@ -64,13 +64,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   information: {
-    width: "75%",
+    width: "80%",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
   },
   state: {
-    width: "25%",
+    width: "20%",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",

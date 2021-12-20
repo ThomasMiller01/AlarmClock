@@ -45,20 +45,17 @@ class AlarmUntil extends Component {
 
       if (diff > 0) {
         let left_obj = parseDateDiff(diff);
-        let left = "";
+        let left = [];
 
         if (left_obj.days != 0) {
-          if (left_obj.hours != 0 || left_obj.minutes != 0) {
-            left_obj.days++;
-          }
-          left = left_obj.days + " days left";
+          let unit = left_obj.days == 1 ? "day" : "days";
+          left = left_obj.days + " " + unit + " left";
         } else if (left_obj.hours != 0) {
-          if (left_obj.minutes != 0) {
-            left_obj.minutes++;
-          }
-          left = left_obj.hours + " hours left";
-        } else {
-          left = left_obj.minutes + " minutes left";
+          let unit = left_obj.hours == 1 ? "hour" : "hours";
+          left = left_obj.hours + " " + unit + " left";
+        } else if (left_obj.minutes != 0) {
+          let unit = left_obj.minutes == 1 ? "minute" : "minutes";
+          left = left_obj.minutes + " " + unit + " left";
         }
 
         this.setState({ left });
@@ -99,18 +96,29 @@ class AlarmUntil extends Component {
     let weekday = until.date.value[0];
 
     let current = new Date();
+    let current_day = current.getDay();
     current.setMilliseconds(0);
     current.setSeconds(0);
     current.setFullYear(2000, 2, 2);
 
-    if (weekdayToNumber(weekday) == current.getDay() && time > current) {
+    if (weekdayToNumber(weekday) == current_day && time > current) {
       let now = new Date();
       now.setMinutes(time.getMinutes());
       now.setHours(time.getHours());
       return now;
     }
 
-    let day = this.getNextWeekDay(weekday, time);
+    let day = this.parseWeekdays(until.date.value, time);
+    return day;
+  };
+
+  parseWeekdays = (weekdays, time) => {
+    let days = [];
+    weekdays.forEach((weekday) => {
+      days.push(this.getNextWeekDay(weekday, time));
+    });
+
+    let day = Math.min.apply(null, days);
     return day;
   };
 
@@ -122,7 +130,8 @@ class AlarmUntil extends Component {
     date.setSeconds(0);
     date.setMinutes(time.getMinutes());
     date.setHours(time.getHours());
-    date.setDate(date.getDate() + (((7 - date.getDay()) % 7) + add));
+    let mdate = date.getDate() + ((7 + add - date.getDay() - 1) % 7) + 1;
+    date.setDate(mdate);
 
     return date;
   };
