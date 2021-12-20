@@ -1,5 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { weekdayToNumber } from "./utils";
+
 class Alarm {
   constructor(name, time, sound, vibration, reminder, active, exists) {
     this.name = name;
@@ -88,6 +90,66 @@ class Alarm {
       );
     }
   }
+
+  getUntil = () => {
+    let until = {
+      date: this.time.selected,
+      time: this.time.time,
+    };
+
+    let time = new Date(until.time);
+    time.setMilliseconds(0);
+    time.setSeconds(0);
+    time.setFullYear(2000, 2, 2);
+    if (until.date.is_date) {
+      let date = new Date(until.date.value);
+      date.setMinutes(time.getMinutes());
+      date.setHours(time.getHours());
+      return date;
+    }
+
+    let weekday = until.date.value[0];
+
+    let current = new Date();
+    let current_day = current.getDay();
+    current.setMilliseconds(0);
+    current.setSeconds(0);
+    current.setFullYear(2000, 2, 2);
+
+    if (weekdayToNumber(weekday) == current_day && time > current) {
+      let now = new Date();
+      now.setMinutes(time.getMinutes());
+      now.setHours(time.getHours());
+      return now;
+    }
+
+    let day = this.parseWeekdays(until.date.value, time);
+    return day;
+  };
+
+  parseWeekdays = (weekdays, time) => {
+    let days = [];
+    weekdays.forEach((weekday) => {
+      days.push(this.getNextWeekDay(weekday, time));
+    });
+
+    let day = Math.min.apply(null, days);
+    return day;
+  };
+
+  getNextWeekDay = (day, time) => {
+    let add = weekdayToNumber(day);
+
+    let date = new Date();
+    date.setMilliseconds(0);
+    date.setSeconds(0);
+    date.setMinutes(time.getMinutes());
+    date.setHours(time.getHours());
+    let mdate = date.getDate() + ((7 + add - date.getDay() - 1) % 7) + 1;
+    date.setDate(mdate);
+
+    return date;
+  };
 }
 
 export default Alarm;
