@@ -18,6 +18,12 @@ class EditVibration extends Component {
     this.props = props;
 
     this.alarm = this.props.alarm;
+
+    this.state.vibration.enabled = this.alarm.vibration.enabled;
+    let index = this.state.patterns.findIndex(
+      (elem) => elem.name == this.alarm.vibration.pattern.name
+    );
+    this.state.patterns[index].selected = true;
   }
 
   state = {
@@ -30,7 +36,7 @@ class EditVibration extends Component {
         name: "Basic call",
         value: [0, 1.25 * ONE_S_IN_MS],
         repeat: false,
-        selected: true,
+        selected: false,
       },
       {
         name: "Riiing",

@@ -16,9 +16,7 @@ class EditReminder extends Component {
 
     this.alarm = this.props.alarm;
 
-    console.log("r", this.alarm.reminder);
     this.state.reminder.enabled = this.alarm.reminder.enabled;
-
     let intervallIndex = this.state.intervalls.findIndex(
       (elem) => elem.value == this.alarm.reminder.intervall.value
     );
