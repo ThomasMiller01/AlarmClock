@@ -12,6 +12,7 @@ class AlarmViewer extends Component {
   constructor(props) {
     super(props);
 
+    this.alarm = props.alarm;
     this.index = props.index;
     this.view = props.view;
     this.remove = props.remove;
@@ -19,11 +20,11 @@ class AlarmViewer extends Component {
     this.getActive = props.getActive;
 
     this.state = {
-      alarm_id: props.alarm_id,
-      name: props.name,
-      date: props.time.selected,
-      time: new Date(props.time.time),
-      active: props.active,
+      alarm_id: this.alarm.alarm_id,
+      name: this.alarm.name,
+      date: this.alarm.time.selected,
+      time: new Date(this.alarm.time.time),
+      active: this.alarm.active,
     };
   }
 
@@ -74,7 +75,8 @@ class AlarmViewer extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    alignItems: "center",
+    flexDirection: "column",
     margin: 10,
   },
   topContainer: {

@@ -15,6 +15,18 @@ class EditReminder extends Component {
     this.props = props;
 
     this.alarm = this.props.alarm;
+
+    console.log("r", this.alarm.reminder);
+    this.state.reminder.enabled = this.alarm.reminder.enabled;
+
+    let intervallIndex = this.state.intervalls.findIndex(
+      (elem) => elem.value == this.alarm.reminder.intervall.value
+    );
+    this.state.intervalls[intervallIndex].selected = true;
+    let repeatIndex = this.state.repeat.findIndex(
+      (elem) => elem.value == this.alarm.reminder.repeat.value
+    );
+    this.state.repeat[repeatIndex].selected = true;
   }
 
   state = {
@@ -23,15 +35,15 @@ class EditReminder extends Component {
     },
     visible: false,
     intervalls: [
-      { name: "5 Minuten", value: 5, selected: true },
-      { name: "10 Minuten", value: 10, selected: false },
-      { name: "15 Minuten", value: 15, selected: false },
-      { name: "30 Minuten", value: 30, selected: false },
+      { name: "5 minutes", value: 5, selected: false },
+      { name: "10 minutes", value: 10, selected: false },
+      { name: "15 minutes", value: 15, selected: false },
+      { name: "30 minutes", value: 30, selected: false },
     ],
     repeat: [
-      { name: "3 Mal", value: 3, selected: true },
-      { name: "5 Mal", value: 5, selected: false },
-      { name: "Unendlich", value: Infinity, selected: false },
+      { name: "3 times", value: 3, selected: false },
+      { name: "5 times", value: 5, selected: false },
+      { name: "Infinite", value: -1, selected: false },
     ],
   };
 
@@ -50,7 +62,7 @@ class EditReminder extends Component {
       let repeat = this.state.repeat.filter((p) => p.selected)[0];
       return intervall.name + ", " + repeat.name;
     } else {
-      return "Aus";
+      return "off";
     }
   };
 
@@ -111,7 +123,7 @@ class EditReminder extends Component {
             style={styles.switch_container}
           />
           <View>
-            <Text>Intervall</Text>
+            <Text>Interval</Text>
             {this.state.intervalls.map((item, index) => (
               <View key={index}>
                 <TouchableOpacity
@@ -140,7 +152,7 @@ class EditReminder extends Component {
             ))}
           </View>
           <View>
-            <Text>Wiederholen</Text>
+            <Text>Repeat</Text>
             {this.state.repeat.map((item, index) => (
               <View key={index}>
                 <TouchableOpacity

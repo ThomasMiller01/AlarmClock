@@ -1,3 +1,6 @@
+import React, { Component } from "react";
+import { StyleSheet, View } from "react-native";
+
 export function dummyValues() {
   return {
     name: "New Alarm",
@@ -94,4 +97,15 @@ export function weekdayToNumber(weekday) {
       return 7;
   }
   return 0;
+}
+
+export function divider() {
+  return (
+    <View
+      style={{
+        borderBottomColor: "black",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+      }}
+    />
+  );
 }

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, Button, ScrollView } from "react-native";
+import { StyleSheet, View, Button, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Alarm from "./alarm/alarm";
 import AlarmViewer from "./alarm/views/viewAlarm/alarm_viewer";
-import { dummyValues } from "./alarm/utils";
+import { dummyValues, divider } from "./alarm/utils";
 
 class Main extends Component {
   constructor(props) {
@@ -23,18 +23,14 @@ class Main extends Component {
     this.getAlarms();
     this.willFocusSubscription = this.props.navigation.addListener(
       "focus",
-      () => {
-        this.getAlarms();
+      async () => {
+        await this.getAlarms();
       }
     );
   }
 
   componentWillUnmount() {
     this.willFocusSubscription();
-  }
-
-  componentDidUpdate() {
-    //this.getAlarms();
   }
 
   getAlarms = async () => {
@@ -48,6 +44,7 @@ class Main extends Component {
     let alarm_items = await AsyncStorage.multiGet(alarms);
     alarm_items.forEach(async (item) => {
       let alarm_json = JSON.parse(item[1]);
+      console.log("name", alarm_json["name"]);
       alarm_list.push(
         new Alarm(
           alarm_json["name"],
@@ -111,21 +108,21 @@ class Main extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button title="Add" onPress={() => this.addAlarm()} />
         <ScrollView>
           {this.state.alarm_list.map((item, index) => (
-            <AlarmViewer
-              name={item.name}
-              time={item.time}
-              index={index}
-              active={item.active}
-              view={this.viewAlarm}
-              remove={this.removeAlarm}
-              changeState={this.changeState}
-              getActive={this.getActive}
-              key={index}
-            />
+            <React.Fragment key={index}>
+              <AlarmViewer
+                alarm={item}
+                index={index}
+                view={this.viewAlarm}
+                remove={this.removeAlarm}
+                changeState={this.changeState}
+                getActive={this.getActive}
+              />
+              {divider()}
+            </React.Fragment>
           ))}
+          <Button title="Add" onPress={() => this.addAlarm()} />
         </ScrollView>
       </View>
     );
