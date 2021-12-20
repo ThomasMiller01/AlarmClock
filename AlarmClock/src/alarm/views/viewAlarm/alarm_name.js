@@ -5,21 +5,15 @@ class AlarmName extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: props.index,
-      name: props.name,
-    };
+    this.getAlarm = props.getAlarm;
+    this.index = props.index;
   }
 
-  state = {
-    id: null,
-    name: null,
-  };
-
   render() {
+    let name = this.getAlarm(this.index).name;
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{this.state.name}</Text>
+        <Text style={styles.text}>{name}</Text>
       </View>
     );
   }

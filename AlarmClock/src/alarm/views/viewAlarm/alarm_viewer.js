@@ -12,29 +12,12 @@ class AlarmViewer extends Component {
   constructor(props) {
     super(props);
 
-    this.alarm = props.alarm;
     this.index = props.index;
+    this.getAlarm = props.getAlarm;
     this.view = props.view;
     this.remove = props.remove;
     this.changeState = props.changeState;
-    this.getActive = props.getActive;
-
-    this.state = {
-      alarm_id: this.alarm.alarm_id,
-      name: this.alarm.name,
-      date: this.alarm.time.selected,
-      time: new Date(this.alarm.time.time),
-      active: this.alarm.active,
-    };
   }
-
-  state = {
-    alarm_id: null,
-    name: null,
-    date: null,
-    time: null,
-    active: null,
-  };
 
   render() {
     return (
@@ -42,23 +25,19 @@ class AlarmViewer extends Component {
         <View style={styles.topContainer}>
           <View style={styles.information}>
             <View style={styles.row}>
-              <AlarmTime time={this.state.time} />
-              <AlarmName index={this.index} name={this.state.name} />
+              <AlarmTime getAlarm={this.getAlarm} index={this.index} />
+              <AlarmName getAlarm={this.getAlarm} index={this.index} />
             </View>
             <View style={styles.row}>
-              <AlarmDate date={this.state.date} />
+              <AlarmDate getAlarm={this.getAlarm} index={this.index} />
               <Text>|</Text>
-              <AlarmUntil
-                until={{ date: this.state.date, time: this.state.time }}
-                index={this.index}
-                getActive={this.getActive}
-              />
+              <AlarmUntil getAlarm={this.getAlarm} index={this.index} />
             </View>
           </View>
           <View style={styles.state}>
             <AlarmState
               index={this.index}
-              active={this.state.active}
+              getAlarm={this.getAlarm}
               changeState={this.changeState}
             />
           </View>

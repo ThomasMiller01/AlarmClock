@@ -6,19 +6,15 @@ class AlarmTime extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      time: props.time,
-    };
+    this.getAlarm = props.getAlarm;
+    this.index = props.index;
   }
 
-  state = {
-    time: null,
-  };
-
   render() {
+    let time = new Date(this.getAlarm(this.index).time.time);
     return (
       <View style={styles.container}>
-        <Text style={styles.time}>{formatDate(this.state.time, "hh:MM")}</Text>
+        <Text style={styles.time}>{formatDate(time, "hh:MM")}</Text>
       </View>
     );
   }

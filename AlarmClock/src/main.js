@@ -34,7 +34,6 @@ class Main extends Component {
   }
 
   getAlarms = async () => {
-    console.log("get alarms");
     let keys = await AsyncStorage.getAllKeys();
     let alarms = keys.filter((key) => key.includes("alarm#"));
     alarms.sort(
@@ -44,7 +43,6 @@ class Main extends Component {
     let alarm_items = await AsyncStorage.multiGet(alarms);
     alarm_items.forEach(async (item) => {
       let alarm_json = JSON.parse(item[1]);
-      console.log("name", alarm_json["name"]);
       alarm_list.push(
         new Alarm(
           alarm_json["name"],
@@ -98,11 +96,11 @@ class Main extends Component {
     this.setState({ alarm_list });
   };
 
-  getActive = (index) => {
+  getAlarm = (index) => {
     if (this.state.alarm_list[index]) {
-      return this.state.alarm_list[index].active;
+      return this.state.alarm_list[index];
     }
-    return false;
+    return null;
   };
 
   render() {
@@ -112,12 +110,11 @@ class Main extends Component {
           {this.state.alarm_list.map((item, index) => (
             <React.Fragment key={index}>
               <AlarmViewer
-                alarm={item}
                 index={index}
+                getAlarm={this.getAlarm}
                 view={this.viewAlarm}
                 remove={this.removeAlarm}
                 changeState={this.changeState}
-                getActive={this.getActive}
               />
               {divider()}
             </React.Fragment>

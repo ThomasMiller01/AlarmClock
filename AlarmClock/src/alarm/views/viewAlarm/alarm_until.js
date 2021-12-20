@@ -8,8 +8,7 @@ class AlarmUntil extends Component {
     super(props);
 
     this.index = props.index;
-    this.until = props.until;
-    this.getActive = props.getActive;
+    this.getAlarm = props.getAlarm;
     this.timer = null;
   }
 
@@ -37,7 +36,9 @@ class AlarmUntil extends Component {
   };
 
   update = () => {
-    let active = this.getActive(this.index);
+    let alarm = this.getAlarm(this.index);
+    if (!alarm) return;
+    let active = alarm.active;
     if (active) {
       let current = new Date();
       let diff = this.parseUntil() - current;
@@ -78,18 +79,24 @@ class AlarmUntil extends Component {
   };
 
   parseUntil = () => {
-    let time = new Date(this.until.time);
+    let alarm = this.getAlarm(this.index);
+    let until = {
+      date: alarm.time.selected,
+      time: alarm.time.time,
+    };
+
+    let time = new Date(until.time);
     time.setMilliseconds(0);
     time.setSeconds(0);
     time.setFullYear(2000, 2, 2);
-    if (this.until.date.is_date) {
-      let date = new Date(this.until.date.value);
+    if (until.date.is_date) {
+      let date = new Date(until.date.value);
       date.setMinutes(time.getMinutes());
       date.setHours(time.getHours());
       return date;
     }
 
-    let weekday = this.until.date.value[0];
+    let weekday = until.date.value[0];
 
     let current = new Date();
     current.setMilliseconds(0);

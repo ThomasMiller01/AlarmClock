@@ -6,11 +6,11 @@ class AlarmState extends Component {
     super(props);
 
     this.index = props.index;
+    this.getAlarm = props.getAlarm;
     this.changeState = props.changeState;
 
-    this.state = {
-      active: props.active,
-    };
+    let alarm = this.getAlarm(this.index);
+    this.state = { active: alarm.active };
   }
 
   state = {
