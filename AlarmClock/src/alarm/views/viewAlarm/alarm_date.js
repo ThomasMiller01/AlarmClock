@@ -23,7 +23,7 @@ class AlarmDate extends Component {
         </View>
       );
     } else {
-      let data = date.value.map((elem) => elem.substring(0, 2));
+      let data = date.value.map((elem) => this.getWeekdayShort(elem));
 
       return (
         <View style={styles.container}>
@@ -32,6 +32,42 @@ class AlarmDate extends Component {
       );
     }
   }
+
+  getWeekdayShort = (day) => {
+    let weekdays = [
+      {
+        name: "Monday",
+        short: "Mon",
+      },
+      {
+        name: "Tuesday",
+        short: "Tue",
+      },
+      {
+        name: "Wednesday",
+        short: "Wed",
+      },
+      {
+        name: "Thursday",
+        short: "Thur",
+      },
+      {
+        name: "Friday",
+        short: "Fri",
+      },
+      {
+        name: "Saturday",
+        short: "Sat",
+      },
+      {
+        name: "Sunday",
+        short: "Sun",
+      },
+    ];
+
+    let index = weekdays.findIndex((elem) => elem.name == day);
+    return weekdays[index].short;
+  };
 }
 
 const styles = StyleSheet.create({

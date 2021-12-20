@@ -33,20 +33,20 @@ export function dummyValues() {
 }
 
 export function formatDate(date, format) {
-  let week_days = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+  let week_days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let months = [
     "Jan",
     "Feb",
-    "Mär",
+    "Mar",
     "Apr",
-    "Mai",
+    "May",
     "Jun",
     "Jul",
     "Aug",
-    "Sep",
-    "Okt",
+    "Sept",
+    "Oct",
     "Nov",
-    "Dez",
+    "Dec",
   ];
   let d = date.getDate();
   let m = date.getMonth() + 1;
@@ -81,19 +81,19 @@ export function parseDateDiff(diff) {
 
 export function weekdayToNumber(weekday) {
   switch (weekday) {
-    case "Montag":
+    case "Monday":
       return 1;
-    case "Dienstag":
+    case "Tuesday":
       return 2;
-    case "Mittwoch":
+    case "Wednesday":
       return 3;
-    case "Donnerstag":
+    case "Thursday":
       return 4;
-    case "Freitag":
+    case "Friday":
       return 5;
-    case "Samstag":
+    case "Saturday":
       return 6;
-    case "Sonntag":
+    case "Sunday":
       return 7;
   }
   return 0;

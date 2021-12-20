@@ -45,44 +45,44 @@ class EditTime extends Component {
     },
     days: [
       {
-        name: "Montag",
-        short: "Mo",
+        name: "Monday",
+        short: "Mon",
         minimal: "M",
         selected: false,
       },
       {
-        name: "Dienstag",
-        short: "Di",
-        minimal: "D",
+        name: "Tuesday",
+        short: "Tue",
+        minimal: "T",
         selected: false,
       },
       {
-        name: "Mittwoch",
-        short: "Mi",
-        minimal: "M",
+        name: "Wednesday",
+        short: "Wed",
+        minimal: "W",
         selected: false,
       },
       {
-        name: "Donnerstag",
-        short: "Do",
-        minimal: "D",
+        name: "Thursday",
+        short: "Thu",
+        minimal: "T",
         selected: false,
       },
       {
-        name: "Freitag",
-        short: "Fr",
+        name: "Friday",
+        short: "Fri",
         minimal: "F",
         selected: false,
       },
       {
-        name: "Samstag",
-        short: "Sa",
+        name: "Saturday",
+        short: "Sat",
         minimal: "S",
         selected: false,
       },
       {
-        name: "Sonntag",
-        short: "So",
+        name: "Sunday",
+        short: "Sun",
         minimal: "S",
         selected: false,
       },
@@ -154,13 +154,19 @@ class EditTime extends Component {
   renderSelectedDay = () => {
     let selected = this.state.selected;
     if (selected.is_date) {
-      return <Text>{formatDate(selected.value, "EEE, dd. mmm.")}</Text>;
+      return (
+        <Text style={styles.selected_date_text}>
+          {formatDate(selected.value, "EEE, dd. mmm.")}
+        </Text>
+      );
     } else {
       let days = [];
       selected.value.forEach((day) => {
         days.push(day.short);
       });
-      return <Text>Jeden {days.join(", ")}</Text>;
+      return (
+        <Text style={styles.selected_date_text}>Every {days.join(", ")}</Text>
+      );
     }
   };
 
@@ -221,13 +227,18 @@ class EditTime extends Component {
             onChange={this.onChangeDate}
           />
         )}
-        <Button
-          title={formatDate(this.state.time.value, "hh:MM")}
-          onPress={this.showTime}
-        />
+        <TouchableOpacity onPress={this.showTime} style={styles.time}>
+          <View>
+            <Text style={styles.time_text}>
+              {formatDate(this.state.time.value, "hh:MM")}
+            </Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.selected_date}>
-          <Text>{this.renderSelectedDay()}</Text>
-          <Button title="Date" onPress={this.showDate} />
+          <View style={styles.moment}>
+            <Text>{this.renderSelectedDay()}</Text>
+          </View>
+          <Button title="Set date" onPress={this.showDate} />
         </View>
         <View style={styles.days_container}>
           {this.state.days.map((day, index) => (
@@ -242,20 +253,24 @@ class EditTime extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
   selected_date: {
-    marginTop: 10,
+    marginTop: 30,
     flexDirection: "row",
     flexWrap: "wrap",
+    alignItems: "center",
+  },
+  selected_date_text: {
+    fontSize: 18,
   },
   days_container: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor: "#ffff",
-    borderWidth: 0.5,
-    borderRadius: 2,
+    marginTop: 20,
+    marginBottom: 0,
     justifyContent: "space-between",
     height: 25,
   },
@@ -264,15 +279,34 @@ const styles = StyleSheet.create({
     height: "100%",
     textAlign: "center",
     textAlignVertical: "center",
-    fontSize: 14,
+    fontSize: 16,
   },
   day_normal: {
     width: "12%",
     height: "100%",
+    aspectRatio: 1,
   },
   day_selected: {
     backgroundColor: "lightblue",
     width: "12%",
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    borderRadius: 50,
+  },
+  time: {
+    width: "100%",
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+  time_text: {
+    fontSize: 80,
+  },
+  moment: {
+    marginRight: 20,
   },
 });
 

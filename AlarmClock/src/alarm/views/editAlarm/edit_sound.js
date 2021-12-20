@@ -47,7 +47,7 @@ class EditSound extends Component {
       let sound = this.state.ringtones.filter((p) => p.selected)[0];
       return sound.value;
     } else {
-      return "Aus";
+      return "Off";
     }
   };
 
@@ -78,7 +78,9 @@ class EditSound extends Component {
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <TouchableOpacity onPress={this.toggleVisibility}>
-            <Text>Alarmton: {this.renderSelectedSound()}</Text>
+            <Text style={styles.selected_sound}>
+              Sound: {this.renderSelectedSound()}
+            </Text>
           </TouchableOpacity>
           <Switch
             trackColor={{ false: "#767577", true: "#314CB6" }}
@@ -175,6 +177,9 @@ const styles = StyleSheet.create({
     width: 12,
     borderRadius: 20,
     backgroundColor: "#314CB6",
+  },
+  selected_sound: {
+    fontSize: 18,
   },
 });
 

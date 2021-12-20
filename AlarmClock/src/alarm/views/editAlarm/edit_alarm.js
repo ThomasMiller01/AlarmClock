@@ -74,15 +74,14 @@ class EditAlarm extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <View style={{ margin: 10 }}>
-          <Text>alarm_id: {this.state.alarm_id}</Text>
-        </View>
         <EditTime alarm={this.alarm} ref={this.timeRef} />
-        <TextInput
-          value={this.state.name}
-          onChangeText={this.onChangeName}
-          style={styles.textField}
-        />
+        <View style={styles.name_container}>
+          <TextInput
+            value={this.state.name}
+            onChangeText={this.onChangeName}
+            style={styles.textField}
+          />
+        </View>
         <EditSound alarm={this.alarm} ref={this.soundRef} />
         <EditVibration alarm={this.alarm} ref={this.vibrationRef} />
         <EditReminder alarm={this.alarm} ref={this.reminderRef} />
@@ -100,9 +99,14 @@ const styles = StyleSheet.create({
   },
   textField: {
     width: "100%",
-    borderBottomWidth: 0.2,
+    borderBottomWidth: 1,
     marginTop: 5,
     marginBottom: 5,
+    fontSize: 20,
+  },
+  name_container: {
+    marginTop: 15,
+    marginBottom: 15,
   },
 });
 
