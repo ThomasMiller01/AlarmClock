@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Switch } from "react-native";
+import ColorsManager from "../../../colors/colors";
+
+const colorsManager = ColorsManager.get();
 
 class AlarmState extends Component {
   constructor(props) {
@@ -11,6 +14,9 @@ class AlarmState extends Component {
 
     let alarm = this.getAlarm(this.index);
     this.state = { active: alarm.active };
+
+    this.colors = colorsManager.colors();
+    this.setStyles();
   }
 
   state = {
@@ -28,24 +34,29 @@ class AlarmState extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={this.styles.container}>
         <Switch
-          trackColor={{ false: "#767577", true: "#314CB6" }}
-          thumbColor={"white"}
+          trackColor={{
+            false: this.colors.switch.off,
+            true: this.colors.switch.on,
+          }}
+          thumbColor={this.colors.switch.thumb}
           onValueChange={this.onChangeSwitch}
           value={this.state.active}
-          style={styles.switch_container}
+          style={this.styles.switch_container}
         />
       </View>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {},
-  switch_container: {
-    transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }],
-  },
-});
+  setStyles = () => {
+    this.styles = StyleSheet.create({
+      container: {},
+      switch_container: {
+        transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }],
+      },
+    });
+  };
+}
 
 export default AlarmState;

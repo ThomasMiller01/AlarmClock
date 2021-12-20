@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { formatDate } from "../../utils";
+import ColorsManager from "../../../colors/colors";
+
+const colorsManager = ColorsManager.get();
 
 class EditTime extends Component {
   constructor(props) {
@@ -28,6 +31,9 @@ class EditTime extends Component {
       is_date: this.alarm.time.selected.is_date,
       value: selected_value,
     };
+
+    this.colors = colorsManager.colors();
+    this.setStyles();
   }
 
   state = {
@@ -133,19 +139,19 @@ class EditTime extends Component {
     if (day.selected) {
       return (
         <TouchableOpacity
-          style={styles.day_selected}
+          style={this.styles.day_selected}
           onPress={() => this.onChangeDay(index)}
         >
-          <Text style={styles.days_text}>{day.short}</Text>
+          <Text style={this.styles.days_text}>{day.short}</Text>
         </TouchableOpacity>
       );
     } else {
       return (
         <TouchableOpacity
-          style={styles.day_normal}
+          style={this.styles.day_normal}
           onPress={() => this.onChangeDay(index)}
         >
-          <Text style={styles.days_text}>{day.minimal}</Text>
+          <Text style={this.styles.days_text}>{day.minimal}</Text>
         </TouchableOpacity>
       );
     }
@@ -155,7 +161,7 @@ class EditTime extends Component {
     let selected = this.state.selected;
     if (selected.is_date) {
       return (
-        <Text style={styles.selected_date_text}>
+        <Text style={this.styles.selected_date_text}>
           {formatDate(selected.value, "EEE, dd. mmm.")}
         </Text>
       );
@@ -165,7 +171,9 @@ class EditTime extends Component {
         days.push(day.short);
       });
       return (
-        <Text style={styles.selected_date_text}>Every {days.join(", ")}</Text>
+        <Text style={this.styles.selected_date_text}>
+          Every {days.join(", ")}
+        </Text>
       );
     }
   };
@@ -209,7 +217,7 @@ class EditTime extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={this.styles.container}>
         {this.state.time.show && (
           <DateTimePicker
             value={this.state.time.value}
@@ -227,20 +235,20 @@ class EditTime extends Component {
             onChange={this.onChangeDate}
           />
         )}
-        <TouchableOpacity onPress={this.showTime} style={styles.time}>
+        <TouchableOpacity onPress={this.showTime} style={this.styles.time}>
           <View>
-            <Text style={styles.time_text}>
+            <Text style={this.styles.time_text}>
               {formatDate(this.state.time.value, "hh:MM")}
             </Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.selected_date}>
-          <View style={styles.moment}>
+        <View style={this.styles.selected_date}>
+          <View style={this.styles.moment}>
             <Text>{this.renderSelectedDay()}</Text>
           </View>
           <Button title="Set date" onPress={this.showDate} />
         </View>
-        <View style={styles.days_container}>
+        <View style={this.styles.days_container}>
           {this.state.days.map((day, index) => (
             <React.Fragment key={index}>
               {this.renderDay(day, index)}
@@ -250,64 +258,69 @@ class EditTime extends Component {
       </View>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  selected_date: {
-    marginTop: 30,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  selected_date_text: {
-    fontSize: 18,
-  },
-  days_container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginTop: 20,
-    marginBottom: 0,
-    justifyContent: "space-between",
-    height: 25,
-  },
-  days_text: {
-    width: "100%",
-    height: "100%",
-    textAlign: "center",
-    textAlignVertical: "center",
-    fontSize: 16,
-  },
-  day_normal: {
-    width: "12%",
-    height: "100%",
-    aspectRatio: 1,
-  },
-  day_selected: {
-    backgroundColor: "lightblue",
-    width: "12%",
-    alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    borderRadius: 50,
-  },
-  time: {
-    width: "100%",
-    alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
-  time_text: {
-    fontSize: 80,
-  },
-  moment: {
-    marginRight: 20,
-  },
-});
+  setStyles = () => {
+    this.styles = StyleSheet.create({
+      container: {
+        marginTop: 20,
+        marginBottom: 20,
+      },
+      selected_date: {
+        marginTop: 30,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+      },
+      selected_date_text: {
+        fontSize: 18,
+        color: this.colors.text.normal,
+      },
+      days_container: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        marginTop: 20,
+        marginBottom: 0,
+        justifyContent: "space-between",
+        height: 25,
+      },
+      days_text: {
+        width: "100%",
+        height: "100%",
+        textAlign: "center",
+        textAlignVertical: "center",
+        fontSize: 18,
+        color: this.colors.text.normal,
+      },
+      day_normal: {
+        width: "12%",
+        height: "100%",
+        aspectRatio: 1,
+      },
+      day_selected: {
+        backgroundColor: this.colors.background.selected,
+        width: "12%",
+        alignItems: "center",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        borderRadius: 50,
+      },
+      time: {
+        width: "100%",
+        alignItems: "center",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+      },
+      time_text: {
+        fontSize: 80,
+        color: this.colors.text.normal,
+      },
+      moment: {
+        marginRight: 20,
+      },
+    });
+  };
+}
 
 export default EditTime;

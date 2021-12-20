@@ -5,6 +5,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Alarm from "./alarm/alarm";
 import AlarmViewer from "./alarm/views/viewAlarm/alarm_viewer";
 import { dummyValues, divider } from "./alarm/utils";
+import ColorsManager from "./colors/colors";
+
+const colorsManager = ColorsManager.get();
 
 class Main extends Component {
   constructor(props) {
@@ -12,6 +15,9 @@ class Main extends Component {
 
     this.viewAlarm = this.viewAlarm.bind(this);
     this.removeAlarm = this.removeAlarm.bind(this);
+
+    this.colors = colorsManager.colors();
+    this.setStyles();
   }
 
   state = {
@@ -105,7 +111,7 @@ class Main extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={this.styles.container}>
         <ScrollView>
           {this.state.alarm_list.map((item, index) => (
             <React.Fragment key={index}>
@@ -119,21 +125,30 @@ class Main extends Component {
               {divider()}
             </React.Fragment>
           ))}
-          <Button title="Add" onPress={() => this.addAlarm()} />
+          <Button
+            title="Add"
+            onPress={() => this.addAlarm()}
+            style={this.styles.text}
+          />
         </ScrollView>
       </View>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 5,
-  },
-});
+  setStyles = () => {
+    this.styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: this.colors.background.normal,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 5,
+      },
+      text: {
+        color: this.colors.text.normal,
+      },
+    });
+  };
+}
 
 export default Main;

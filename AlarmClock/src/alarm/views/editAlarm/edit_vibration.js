@@ -9,6 +9,9 @@ import {
   Text,
 } from "react-native";
 import Modal from "react-native-modal";
+import ColorsManager from "../../../colors/colors";
+
+const colorsManager = ColorsManager.get();
 
 const ONE_S_IN_MS = 1000;
 
@@ -24,6 +27,9 @@ class EditVibration extends Component {
       (elem) => elem.name == this.alarm.vibration.pattern.name
     );
     this.state.patterns[index].selected = true;
+
+    this.colors = colorsManager.colors();
+    this.setStyles();
   }
 
   state = {
@@ -136,29 +142,38 @@ class EditVibration extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.topContainer}>
+      <View style={this.styles.container}>
+        <View style={this.styles.topContainer}>
           <TouchableOpacity onPress={this.toggleVibrationPatterns}>
-            <Text style={styles.selected_vibration}>
+            <Text style={this.styles.selected_vibration}>
               Vibration: {this.renderSelectedPattern()}
             </Text>
           </TouchableOpacity>
           <Switch
-            trackColor={{ false: "#767577", true: "#314CB6" }}
-            thumbColor={"white"}
+            trackColor={{
+              false: this.colors.switch.off,
+              true: this.colors.switch.on,
+            }}
+            thumbColor={this.colors.switch.thumb}
             onValueChange={this.onChangeSwitch}
             value={this.state.vibration.enabled}
-            style={styles.switch_container}
+            style={this.styles.switch_container}
           />
         </View>
-        <Modal isVisible={this.state.visible_patterns} style={styles.modal}>
+        <Modal
+          isVisible={this.state.visible_patterns}
+          style={this.styles.modal}
+        >
           <Button title="Back" onPress={this.toggleVibrationPatterns} />
           <Switch
-            trackColor={{ false: "#767577", true: "#314CB6" }}
-            thumbColor={"white"}
+            trackColor={{
+              false: this.colors.switch.off,
+              true: this.colors.switch.on,
+            }}
+            thumbColor={this.colors.switch.thumb}
             onValueChange={this.onChangeSwitch}
             value={this.state.vibration.enabled}
-            style={styles.switch_container}
+            style={this.styles.switch_container}
           />
           <View>
             {this.state.patterns.map((item, index) => (
@@ -166,24 +181,24 @@ class EditVibration extends Component {
                 <TouchableOpacity
                   style={
                     this.state.vibration.enabled
-                      ? styles.pattern_container
-                      : styles.pattern_container_disabled
+                      ? this.styles.pattern_container
+                      : this.styles.pattern_container_disabled
                   }
                   disabled={this.state.vibration.enabled ? false : true}
                   onPress={() => {
                     this.onPressPattern(item);
                   }}
                 >
-                  <View style={styles.circle}>
+                  <View style={this.styles.circle}>
                     <View
                       style={
                         item.selected
-                          ? styles.circle_selected
-                          : styles.circle_normal
+                          ? this.styles.circle_selected
+                          : this.styles.circle_normal
                       }
                     ></View>
                   </View>
-                  <Text>{item.name}</Text>
+                  <Text style={this.styles.text}>{item.name}</Text>
                 </TouchableOpacity>
               </View>
             ))}
@@ -192,56 +207,64 @@ class EditVibration extends Component {
       </View>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {},
-  topContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  pattern_container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  switch_container: {
-    transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
-  },
-  modal: {
-    backgroundColor: "white",
-    margin: 0,
-    padding: 20,
-  },
-  pattern_container_disabled: {
-    opacity: 0.5,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  circle: {
-    height: 20,
-    width: 20,
-    borderRadius: 20 / 2,
-    borderWidth: 0.5,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10,
-  },
-  circle_normal: {
-    height: 12,
-    width: 12,
-  },
-  circle_selected: {
-    height: 12,
-    width: 12,
-    borderRadius: 20,
-    backgroundColor: "#314CB6",
-  },
-  selected_vibration: {
-    fontSize: 18,
-  },
-});
+  setStyles = () => {
+    this.styles = StyleSheet.create({
+      container: {},
+      topContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+      },
+      pattern_container: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+      },
+      switch_container: {
+        transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
+      },
+      modal: {
+        backgroundColor: this.colors.background.second,
+        margin: 0,
+        padding: 20,
+      },
+      pattern_container_disabled: {
+        opacity: 0.5,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+      },
+      circle: {
+        height: 20,
+        width: 20,
+        borderRadius: 20 / 2,
+        borderWidth: 0.5,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 10,
+        backgroundColor: "transparent",
+        borderColor: this.colors.circle.background,
+      },
+      circle_normal: {
+        height: 12,
+        width: 12,
+      },
+      circle_selected: {
+        height: 12,
+        width: 12,
+        borderRadius: 20,
+        backgroundColor: this.colors.circle.selected,
+      },
+      selected_vibration: {
+        fontSize: 18,
+        color: this.colors.text.normal,
+      },
+      text: {
+        color: this.colors.text.normal,
+      },
+    });
+  };
+}
 
 export default EditVibration;

@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import { parseDateDiff } from "../../utils";
+import ColorsManager from "../../../colors/colors";
+
+const colorsManager = ColorsManager.get();
 
 class AlarmUntil extends Component {
   constructor(props) {
@@ -10,6 +13,9 @@ class AlarmUntil extends Component {
     this.index = props.index;
     this.getAlarm = props.getAlarm;
     this.timer = null;
+
+    this.colors = colorsManager.colors();
+    this.setStyles();
   }
 
   componentDidMount() {
@@ -77,19 +83,22 @@ class AlarmUntil extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{this.state.left}</Text>
+      <View style={this.styles.container}>
+        <Text style={this.styles.text}>{this.state.left}</Text>
       </View>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: { marginLeft: 5 },
-  text: {
-    fontSize: 15,
-    fontStyle: "italic",
-  },
-});
+  setStyles = () => {
+    this.styles = StyleSheet.create({
+      container: { marginLeft: 5 },
+      text: {
+        fontSize: 15,
+        fontStyle: "italic",
+        color: this.colors.text.normal,
+      },
+    });
+  };
+}
 
 export default AlarmUntil;

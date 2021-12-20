@@ -8,6 +8,9 @@ import {
   Button,
 } from "react-native";
 import Modal from "react-native-modal";
+import ColorsManager from "../../../colors/colors";
+
+const colorsManager = ColorsManager.get();
 
 class EditReminder extends Component {
   constructor(props) {
@@ -25,6 +28,9 @@ class EditReminder extends Component {
       (elem) => elem.value == this.alarm.reminder.repeat.value
     );
     this.state.repeat[repeatIndex].selected = true;
+
+    this.colors = colorsManager.colors();
+    this.setStyles();
   }
 
   state = {
@@ -98,84 +104,90 @@ class EditReminder extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.topContainer}>
+      <View style={this.styles.container}>
+        <View style={this.styles.topContainer}>
           <TouchableOpacity onPress={this.toggleVisibility}>
-            <Text style={styles.selected_reminder}>
+            <Text style={this.styles.selected_reminder}>
               Reminder: {this.renderSelectedReminder()}
             </Text>
           </TouchableOpacity>
           <Switch
-            trackColor={{ false: "#767577", true: "#314CB6" }}
-            thumbColor={"white"}
+            trackColor={{
+              false: this.colors.switch.off,
+              true: this.colors.switch.on,
+            }}
+            thumbColor={this.colors.switch.thumb}
             onValueChange={this.onChangeSwitch}
             value={this.state.reminder.enabled}
-            style={styles.switch_container}
+            style={this.styles.switch_container}
           />
         </View>
-        <Modal isVisible={this.state.visible} style={styles.modal}>
+        <Modal isVisible={this.state.visible} style={this.styles.modal}>
           <Button title="Back" onPress={this.toggleVisibility} />
           <Switch
-            trackColor={{ false: "#767577", true: "#314CB6" }}
-            thumbColor={"white"}
+            trackColor={{
+              false: this.colors.switch.off,
+              true: this.colors.switch.on,
+            }}
+            thumbColor={this.colors.switch.thumb}
             onValueChange={this.onChangeSwitch}
             value={this.state.reminder.enabled}
-            style={styles.switch_container}
+            style={this.styles.switch_container}
           />
           <View>
-            <Text>Interval</Text>
+            <Text style={this.styles.text}>Interval</Text>
             {this.state.intervalls.map((item, index) => (
               <View key={index}>
                 <TouchableOpacity
                   style={
                     this.state.reminder.enabled
-                      ? styles.reminder_container
-                      : styles.reminder_container_disabled
+                      ? this.styles.reminder_container
+                      : this.styles.reminder_container_disabled
                   }
                   disabled={this.state.reminder.enabled ? false : true}
                   onPress={() => {
                     this.onPressIntervalls(item);
                   }}
                 >
-                  <View style={styles.circle}>
+                  <View style={this.styles.circle}>
                     <View
                       style={
                         item.selected
-                          ? styles.circle_selected
-                          : styles.circle_normal
+                          ? this.styles.circle_selected
+                          : this.styles.circle_normal
                       }
                     ></View>
                   </View>
-                  <Text>{item.name}</Text>
+                  <Text style={this.styles.text}>{item.name}</Text>
                 </TouchableOpacity>
               </View>
             ))}
           </View>
           <View>
-            <Text>Repeat</Text>
+            <Text style={this.styles.text}>Repeat</Text>
             {this.state.repeat.map((item, index) => (
               <View key={index}>
                 <TouchableOpacity
                   style={
                     this.state.reminder.enabled
-                      ? styles.reminder_container
-                      : styles.reminder_container_disabled
+                      ? this.styles.reminder_container
+                      : this.styles.reminder_container_disabled
                   }
                   disabled={this.state.reminder.enabled ? false : true}
                   onPress={() => {
                     this.onPressRepeat(item);
                   }}
                 >
-                  <View style={styles.circle}>
+                  <View style={this.styles.circle}>
                     <View
                       style={
                         item.selected
-                          ? styles.circle_selected
-                          : styles.circle_normal
+                          ? this.styles.circle_selected
+                          : this.styles.circle_normal
                       }
                     ></View>
                   </View>
-                  <Text>{item.name}</Text>
+                  <Text style={this.styles.text}>{item.name}</Text>
                 </TouchableOpacity>
               </View>
             ))}
@@ -184,56 +196,64 @@ class EditReminder extends Component {
       </View>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {},
-  topContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  switch_container: {
-    transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
-  },
-  modal: {
-    backgroundColor: "white",
-    margin: 0,
-    padding: 20,
-  },
-  reminder_container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  reminder_container_disabled: {
-    opacity: 0.5,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  circle: {
-    height: 20,
-    width: 20,
-    borderRadius: 20 / 2,
-    borderWidth: 0.5,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10,
-  },
-  circle_normal: {
-    height: 12,
-    width: 12,
-  },
-  circle_selected: {
-    height: 12,
-    width: 12,
-    borderRadius: 20,
-    backgroundColor: "#314CB6",
-  },
-  selected_reminder: {
-    fontSize: 18,
-  },
-});
+  setStyles = () => {
+    this.styles = StyleSheet.create({
+      container: {},
+      topContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+      },
+      switch_container: {
+        transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
+      },
+      modal: {
+        backgroundColor: this.colors.background.second,
+        margin: 0,
+        padding: 20,
+      },
+      reminder_container: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+      },
+      reminder_container_disabled: {
+        opacity: 0.5,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+      },
+      circle: {
+        height: 20,
+        width: 20,
+        borderRadius: 20 / 2,
+        borderWidth: 0.5,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 10,
+        backgroundColor: "transparent",
+        borderColor: this.colors.circle.background,
+      },
+      circle_normal: {
+        height: 12,
+        width: 12,
+      },
+      circle_selected: {
+        height: 12,
+        width: 12,
+        borderRadius: 20,
+        backgroundColor: this.colors.circle.selected,
+      },
+      selected_reminder: {
+        fontSize: 18,
+        color: this.colors.text.normal,
+      },
+      text: {
+        color: this.colors.text.normal,
+      },
+    });
+  };
+}
 
 export default EditReminder;

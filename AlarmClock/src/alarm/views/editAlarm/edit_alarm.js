@@ -1,18 +1,14 @@
 import React, { Component, createRef } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  Button,
-  TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, ScrollView, Button, TextInput, View } from "react-native";
 import Toast from "react-native-toast-message";
 
 import EditTime from "./edit_time";
 import EditSound from "./edit_sound";
 import EditVibration from "./edit_vibration";
 import EditReminder from "./edit_reminder";
+import ColorsManager from "../../../colors/colors";
+
+const colorsManager = ColorsManager.get();
 
 class EditAlarm extends Component {
   constructor(props) {
@@ -33,6 +29,9 @@ class EditAlarm extends Component {
     this.soundRef = createRef();
     this.vibrationRef = createRef();
     this.reminderRef = createRef();
+
+    this.colors = colorsManager.colors();
+    this.setStyles();
   }
 
   state = {
@@ -73,13 +72,13 @@ class EditAlarm extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={this.styles.container}>
         <EditTime alarm={this.alarm} ref={this.timeRef} />
-        <View style={styles.name_container}>
+        <View style={this.styles.name_container}>
           <TextInput
             value={this.state.name}
             onChangeText={this.onChangeName}
-            style={styles.textField}
+            style={this.styles.textField}
           />
         </View>
         <EditSound alarm={this.alarm} ref={this.soundRef} />
@@ -89,25 +88,28 @@ class EditAlarm extends Component {
       </ScrollView>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "lightgrey",
-    padding: 10,
-    margin: 10,
-  },
-  textField: {
-    width: "100%",
-    borderBottomWidth: 1,
-    marginTop: 5,
-    marginBottom: 5,
-    fontSize: 20,
-  },
-  name_container: {
-    marginTop: 15,
-    marginBottom: 15,
-  },
-});
+  setStyles = () => {
+    this.styles = StyleSheet.create({
+      container: {
+        backgroundColor: this.colors.background.normal,
+        padding: 20,
+      },
+      textField: {
+        width: "100%",
+        borderBottomWidth: 1,
+        marginTop: 5,
+        marginBottom: 5,
+        fontSize: 20,
+        color: this.colors.text.normal,
+        borderBottomColor: this.colors.text.normal,
+      },
+      name_container: {
+        marginTop: 15,
+        marginBottom: 15,
+      },
+    });
+  };
+}
 
 export default EditAlarm;
