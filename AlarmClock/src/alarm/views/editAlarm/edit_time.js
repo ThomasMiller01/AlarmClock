@@ -163,7 +163,6 @@ class EditTime extends Component {
   };
 
   renderDay = (day, index) => {
-    console.log("day {0}, selected {1}", day.name, day.selected);
     if (day.selected) {
       return (
         <TouchableOpacity
