@@ -1,26 +1,33 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import BackgroundTimer from "react-native-background-timer";
 
-class AlarmManager extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>
-          Create main loop, check, if an alarm has triggered, and call a
-          callback method
-        </Text>
-      </View>
-    );
+class AlarmManager {
+  static instance = null;
+
+  static get() {
+    if (AlarmManager.instance == null) {
+      AlarmManager.instance = new AlarmManager();
+    }
+
+    return this.instance;
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+  constructor() {
+    console.log("AlarmManager started ...");
+  }
+
+  start = () => {
+    BackgroundTimer.runBackgroundTimer(() => {
+      this.check();
+    }, 1000);
+  };
+
+  stop = () => {
+    BackgroundTimer.stopBackgroundTimer();
+  };
+
+  check = () => {
+    console.log("check");
+  };
+}
 
 export default AlarmManager;

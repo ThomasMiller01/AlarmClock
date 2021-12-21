@@ -6,12 +6,16 @@ import Alarm from "./alarm/alarm";
 import AlarmViewer from "./alarm/views/viewAlarm/alarm_viewer";
 import { dummyValues, divider } from "./alarm/utils";
 import ColorsManager from "./colors/colors";
+import AlarmManager from "./alarm/alarm_manager";
 
+const alarmManager = AlarmManager.get();
 const colorsManager = ColorsManager.get();
 
 class Main extends Component {
   constructor(props) {
     super(props);
+
+    alarmManager.check();
 
     this.viewAlarm = this.viewAlarm.bind(this);
     this.removeAlarm = this.removeAlarm.bind(this);
@@ -112,6 +116,16 @@ class Main extends Component {
   render() {
     return (
       <View style={this.styles.container}>
+        <Button
+          title="Stop Loop"
+          onPress={() => alarmManager.stop()}
+          style={this.styles.text}
+        />
+        <Button
+          title="Start Loop"
+          onPress={() => alarmManager.start()}
+          style={this.styles.text}
+        />
         <ScrollView>
           {this.state.alarm_list.map((item, index) => (
             <React.Fragment key={index}>
