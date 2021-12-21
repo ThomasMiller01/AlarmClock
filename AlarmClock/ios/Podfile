@@ -23,4 +23,6 @@ target 'AlarmClock' do
   #  end
   pod 'react-native-notification-sounds', :path => '../node_modules/react-native-notification-sounds'
 
+  pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
+
 end

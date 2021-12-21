@@ -11,7 +11,7 @@ import MainRoute from "./src/main_route";
 
 export default function App() {
   let alarmManager = AlarmManager.get();
-  //alarmManager.start();
+  alarmManager.start();
 
   return <MainRoute />;
 }

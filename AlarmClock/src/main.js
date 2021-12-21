@@ -15,8 +15,6 @@ class Main extends Component {
   constructor(props) {
     super(props);
 
-    alarmManager.check();
-
     this.viewAlarm = this.viewAlarm.bind(this);
     this.removeAlarm = this.removeAlarm.bind(this);
 
@@ -117,13 +115,18 @@ class Main extends Component {
     return (
       <View style={this.styles.container}>
         <Button
-          title="Stop Loop"
-          onPress={() => alarmManager.stop()}
+          title="Notify"
+          onPress={() => alarmManager.notify()}
           style={this.styles.text}
         />
         <Button
           title="Start Loop"
           onPress={() => alarmManager.start()}
+          style={this.styles.text}
+        />
+        <Button
+          title="Stop Loop"
+          onPress={() => alarmManager.stop()}
           style={this.styles.text}
         />
         <ScrollView>

@@ -5,11 +5,21 @@
     "name": "AlarmClock",
     "slug": "AlarmClock",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "info.thomasmiller.AlarmClock"
-    }
+    },
+    "ios": {
+      "bundleIdentifier": "info.thomasmiller.AlarmClock"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#ffffff",
+          "mode": "development"
+        }
+      ]
+    ]
   }
 }
