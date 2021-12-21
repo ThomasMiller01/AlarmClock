@@ -28,6 +28,12 @@ class AlarmDate extends Component {
           </Text>
         </View>
       );
+    } else if (date.value.length == 7) {
+      return (
+        <View style={this.styles.container}>
+          <Text style={this.styles.text}>Daily</Text>
+        </View>
+      );
     } else {
       let data = date.value.map((elem) => this.getWeekdayShort(elem));
 

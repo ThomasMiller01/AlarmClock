@@ -103,24 +103,11 @@ class Alarm {
     time.setFullYear(2000, 2, 2);
     if (until.date.is_date) {
       let date = new Date(until.date.value);
+      date.setMilliseconds(0);
+      date.setSeconds(0);
       date.setMinutes(time.getMinutes());
       date.setHours(time.getHours());
       return date;
-    }
-
-    let weekday = until.date.value[0];
-
-    let current = new Date();
-    let current_day = current.getDay();
-    current.setMilliseconds(0);
-    current.setSeconds(0);
-    current.setFullYear(2000, 2, 2);
-
-    if (weekdayToNumber(weekday) == current_day && time > current) {
-      let now = new Date();
-      now.setMinutes(time.getMinutes());
-      now.setHours(time.getHours());
-      return now;
     }
 
     let day = this.parseWeekdays(until.date.value, time);
@@ -130,7 +117,20 @@ class Alarm {
   parseWeekdays = (weekdays, time) => {
     let days = [];
     weekdays.forEach((weekday) => {
-      days.push(this.getNextWeekDay(weekday, time));
+      let current = new Date();
+      let current_day = current.getDay();
+      current.setMilliseconds(0);
+      current.setSeconds(0);
+      current.setFullYear(2000, 2, 2);
+
+      if (weekdayToNumber(weekday) == current_day && time > current) {
+        let now = new Date();
+        now.setMinutes(time.getMinutes());
+        now.setHours(time.getHours());
+        days.push(now);
+      } else {
+        days.push(this.getNextWeekDay(weekday, time));
+      }
     });
 
     let day = Math.min.apply(null, days);

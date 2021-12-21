@@ -118,24 +118,52 @@ class EditTime extends Component {
 
   onChangeDay = (index) => {
     let days = this.state.days;
-    if (days[index].selected) {
-      days[index].selected = false;
-    } else {
-      days[index].selected = true;
-    }
-    let active_days = days.filter((elem) => elem.selected);
+
     let selected = this.state.selected;
-    if (active_days.length !== 0) {
-      selected.is_date = false;
-      selected.value = active_days;
+
+    if (index == -1) {
+      let active = days.filter((elem) => elem.selected);
+      if (active.length == 7) {
+        days.map((elem) => (elem.selected = false));
+        selected.is_date = true;
+        selected.value = this.state.date.value;
+      } else {
+        days.map((elem) => (elem.selected = true));
+        selected.is_date = false;
+        selected.value = this.state.days;
+      }
     } else {
-      selected.is_date = true;
-      selected.value = this.state.date.value;
+      if (days[index].selected) {
+        days[index].selected = false;
+      } else {
+        days[index].selected = true;
+      }
+      let active_days = days.filter((elem) => elem.selected);
+      if (active_days.length !== 0) {
+        selected.is_date = false;
+        selected.value = active_days;
+      } else {
+        selected.is_date = true;
+        selected.value = this.state.date.value;
+      }
     }
+
     this.setState({ days, selected });
   };
 
+  renderEveryDay = () => {
+    return (
+      <TouchableOpacity
+        style={this.styles.every_day_container}
+        onPress={() => this.onChangeDay(-1)}
+      >
+        <Text style={this.styles.days_text}>Everyday</Text>
+      </TouchableOpacity>
+    );
+  };
+
   renderDay = (day, index) => {
+    console.log("day {0}, selected {1}", day.name, day.selected);
     if (day.selected) {
       return (
         <TouchableOpacity
@@ -165,6 +193,8 @@ class EditTime extends Component {
           {formatDate(selected.value, "EEE, dd. mmm.")}
         </Text>
       );
+    } else if (selected.value.length == 7) {
+      return <Text style={this.styles.selected_date_text}>Daily</Text>;
     } else {
       let days = [];
       selected.value.forEach((day) => {
@@ -246,7 +276,12 @@ class EditTime extends Component {
           <View style={this.styles.moment}>
             <Text>{this.renderSelectedDay()}</Text>
           </View>
-          <Button title="Set date" onPress={this.showDate} />
+          <View style={this.styles.set_date}>
+            <Button title="Date" onPress={this.showDate} />
+          </View>
+        </View>
+        <View style={this.styles.every_day_container}>
+          {this.renderEveryDay()}
         </View>
         <View style={this.styles.days_container}>
           {this.state.days.map((day, index) => (
@@ -265,6 +300,9 @@ class EditTime extends Component {
         marginTop: 20,
         marginBottom: 20,
       },
+      set_date: {
+        width: "20%",
+      },
       selected_date: {
         marginTop: 30,
         flexDirection: "row",
@@ -275,13 +313,17 @@ class EditTime extends Component {
         fontSize: 18,
         color: this.colors.text.normal,
       },
+      every_day_container: {
+        width: 100,
+        height: 25,
+      },
       days_container: {
         flexDirection: "row",
         flexWrap: "wrap",
         marginTop: 20,
         marginBottom: 0,
         justifyContent: "space-between",
-        height: 25,
+        height: 42,
       },
       days_text: {
         width: "100%",
@@ -299,6 +341,7 @@ class EditTime extends Component {
       day_selected: {
         backgroundColor: this.colors.background.selected,
         width: "12%",
+        height: "100%",
         alignItems: "center",
         flexDirection: "row",
         flexWrap: "wrap",
@@ -317,7 +360,7 @@ class EditTime extends Component {
         color: this.colors.text.normal,
       },
       moment: {
-        marginRight: 20,
+        width: "80%",
       },
     });
   };

@@ -76,7 +76,7 @@ export function parseDateDiff(diff) {
   hours = hours - days * 24;
   minutes = minutes - days * 24 * 60 - hours * 60;
 
-  return { days, hours, minutes };
+  return { days, hours, minutes, seconds };
 }
 
 export function weekdayToNumber(weekday) {

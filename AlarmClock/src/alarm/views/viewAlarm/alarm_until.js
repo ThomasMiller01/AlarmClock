@@ -54,12 +54,24 @@ class AlarmUntil extends Component {
         let left = [];
 
         if (left_obj.days != 0) {
+          if (left_obj.hours != 0 || left_obj.minutes != 0) {
+            left_obj.days++;
+          }
+
           let unit = left_obj.days == 1 ? "day" : "days";
           left = left_obj.days + " " + unit + " left";
         } else if (left_obj.hours != 0) {
+          if (left_obj.minutes != 0) {
+            left_obj.hours++;
+          }
+
           let unit = left_obj.hours == 1 ? "hour" : "hours";
           left = left_obj.hours + " " + unit + " left";
         } else if (left_obj.minutes != 0) {
+          if (left_obj.seconds != 0) {
+            left_obj.minutes++;
+          }
+
           let unit = left_obj.minutes == 1 ? "minute" : "minutes";
           left = left_obj.minutes + " " + unit + " left";
         }

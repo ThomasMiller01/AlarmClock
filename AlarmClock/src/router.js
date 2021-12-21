@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createStackNavigator, notAnimation } from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { View } from "react-native";
 
 import Main from "./main";
@@ -23,7 +23,6 @@ export const Router = () => {
             borderBottomColor: colors.header.border,
             borderBottomWidth: 0.5,
           },
-          cardStyleInterpolator: notAnimation,
           animationEnabled: false,
         }}
       >
